@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 
+
 @interface AppDelegate ()
 
 @end
@@ -15,8 +16,95 @@
 @implementation AppDelegate
 
 
+@synthesize defaultUser;
+
+
+#pragma mark - Xcode generated default methods
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    NSUserDefaults * standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSLog(@"Standard User Defaults pointer = [%@]", standardUserDefaults);
+    
+    /* TBD
+     BOOL incAddition =       [standardUserDefaults boolForKey:@"include_addition"];
+     BOOL incSubtraction =    [standardUserDefaults boolForKey:@"include_subtraction"];
+     BOOL incMultiplication = [standardUserDefaults boolForKey:@"include_multiplication"];
+     BOOL incDivision =       [standardUserDefaults boolForKey:@"include_division"];
+     */
+    
+    NSInteger numProblems = (int) [standardUserDefaults integerForKey:@"num_problems"];
+    if (!numProblems) {
+        [self registerDefaultsFromSettingsBundle];
+    }
+    
+    
+#if 0 // TBD
+    NSString *temp;
+    temp = [standardUserDefaults stringForKey:@"num_problems"];
+    NSLog(@"B ======> %@", temp);
+    
+    NSInteger tempInt = [standardUserDefaults integerForKey:@"num_problems"];
+    NSLog(@"C ======> %u", tempInt);
+#endif
+    
+    
+    [UserRecord setPersistentStorageInfo:self.managedObjectContext
+                                  andObjModel:self.managedObjectModel
+                                andStoreCoord:self.persistentStoreCoordinator];
+    
+    self.defaultUser = [[UserRecord alloc] init];
+    
+    BOOL userFound = [self.defaultUser userExistsInDB:@"Audrey" andLastName:@"Cheng" andEmail:nil];
+    if (userFound) {
+        NSLog(@"Firstname = [%@]", self.defaultUser.firstName);
+        NSLog(@"Lastname = [%@]", self.defaultUser.lastName);
+        NSLog(@"Email = [%@]", self.defaultUser.emailAddress);
+        NSLog(@"Birthday = [%@]", self.defaultUser.birthday);
+        NSLog(@"Creation Date = [%@]", self.defaultUser.creationTimestamp);
+    }
+    else {
+        self.defaultUser.firstName = @"Audrey";
+        self.defaultUser.lastName = @"Cheng";
+        self.defaultUser.gender = NO;
+        self.defaultUser.emailAddress = @"audreyhcheng@gmail.com";
+        [self.defaultUser updatePersistentRecord:YES];
+    }
+    
+#if 0 // TBD
+    if (userFound) {
+        NSLog(@"Firstname = [%@]", user.firstName);
+        NSLog(@"Lastname = [%@]", user.lastName);
+        NSLog(@"Email = [%@]", user.emailAddress);
+        NSLog(@"Birthday = [%@]", user.birthday);
+        NSLog(@"Creation Date = [%@]", user.creationTimestamp);
+    
+        NSDate *current = [NSDate date];
+        
+        [user addMathProblemToRecord:@"1 + 2 =" andCorrectAnswer:@"5" andUserAnswer:@"4" andAnswerCorrect:NO andTimestamp:current withDifficultyLevel:1 withSeriesID:@"1/100"];
+        [user addMathProblemToRecord:@"5 + 7 =" andCorrectAnswer:@"7" andUserAnswer:@"7" andAnswerCorrect:YES andTimestamp:current withDifficultyLevel:1 withSeriesID:@"2/100"];
+        
+        NSArray *problems = [user retrieveAllPastMathProblems];
+        for (int i = 0; i < problems.count; i++) {
+            NSManagedObject *obj = [problems objectAtIndex:i];
+            NSLog(@"Math Problem #%i %@ %@", i,
+                  [obj valueForKey:@"problemDescription"],
+                  [obj valueForKey:@"correctAnswer"]);
+            
+        }
+    }
+    
+    for (int i = 0; i < 10; i++) {
+        SInt16 op1, op2, answer;
+        UInt8 operator;
+        MathProblemGenerator *generator = [[MathProblemGenerator alloc] init:YES andIncSubtraction:YES andIncMultiplication:YES andIncDivision:YES andMaxNumValue:100];
+        [generator generateNewProblem:&op1 andOperand2:&op2 andOperator:&operator andAnswer:&answer];
+    
+        NSLog(@"%i %i %i = %i", op1, operator, op2, answer);
+    }
+#endif
+    
     return YES;
 }
 
@@ -43,6 +131,34 @@
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
 }
+
+
+#pragma mark - Preference settings
+
+- (void)registerDefaultsFromSettingsBundle {
+    // this function writes default settings as settings
+    NSString *settingsBundle = [[NSBundle mainBundle] pathForResource:@"Settings" ofType:@"bundle"];
+    if(!settingsBundle) {
+        NSLog(@"Could not find Settings.bundle");
+        return;
+    }
+    
+    
+    NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[settingsBundle stringByAppendingPathComponent:@"Root.plist"]];
+    NSArray *preferences = [settings objectForKey:@"PreferenceSpecifiers"];
+    
+    NSMutableDictionary *defaultsToRegister = [[NSMutableDictionary alloc] initWithCapacity:[preferences count]];
+    for(NSDictionary *prefSpecification in preferences) {
+        NSString *key = [prefSpecification objectForKey:@"Key"];
+        if(key) {
+            [defaultsToRegister setObject:[prefSpecification objectForKey:@"DefaultValue"] forKey:key];
+            NSLog(@"writing as default %@ to the key %@",[prefSpecification objectForKey:@"DefaultValue"],key);
+        }
+    }
+    
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultsToRegister];
+}
+
 
 #pragma mark - Core Data stack
 

@@ -9,13 +9,17 @@
 /* Begin PBXBuildFile section */
 		46825A8C1FFA368200FD8ED9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 46825A8B1FFA368200FD8ED9 /* main.m */; };
 		46825A8F1FFA368200FD8ED9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 46825A8E1FFA368200FD8ED9 /* AppDelegate.m */; };
-		46825A921FFA368200FD8ED9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46825A911FFA368200FD8ED9 /* ViewController.m */; };
 		46825A951FFA368200FD8ED9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46825A931FFA368200FD8ED9 /* Main.storyboard */; };
 		46825A981FFA368200FD8ED9 /* LearningFun.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 46825A961FFA368200FD8ED9 /* LearningFun.xcdatamodeld */; };
 		46825A9A1FFA368200FD8ED9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46825A991FFA368200FD8ED9 /* Assets.xcassets */; };
 		46825A9D1FFA368200FD8ED9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46825A9B1FFA368200FD8ED9 /* LaunchScreen.storyboard */; };
 		46825AA81FFA368200FD8ED9 /* LearningFunTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46825AA71FFA368200FD8ED9 /* LearningFunTests.m */; };
 		46825AB31FFA368200FD8ED9 /* LearningFunUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46825AB21FFA368200FD8ED9 /* LearningFunUITests.m */; };
+		46825AC51FFA38C800FD8ED9 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46825AC11FFA38C800FD8ED9 /* FirstViewController.m */; };
+		46825AC61FFA38C800FD8ED9 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46825AC31FFA38C800FD8ED9 /* SecondViewController.m */; };
+		46825AC71FFA38C800FD8ED9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 46825AC41FFA38C800FD8ED9 /* Settings.bundle */; };
+		46825AD11FFF3F0600FD8ED9 /* UserRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 46825AD01FFF3F0600FD8ED9 /* UserRecord.m */; };
+		46E58538200BE26E001A9626 /* MathProblemGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E58537200BE26E001A9626 /* MathProblemGenerator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,8 +44,6 @@
 		46825A8B1FFA368200FD8ED9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		46825A8D1FFA368200FD8ED9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		46825A8E1FFA368200FD8ED9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		46825A901FFA368200FD8ED9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		46825A911FFA368200FD8ED9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		46825A941FFA368200FD8ED9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		46825A971FFA368200FD8ED9 /* LearningFun.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LearningFun.xcdatamodel; sourceTree = "<group>"; };
 		46825A991FFA368200FD8ED9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -53,6 +55,15 @@
 		46825AAE1FFA368200FD8ED9 /* LearningFunUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearningFunUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46825AB21FFA368200FD8ED9 /* LearningFunUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LearningFunUITests.m; sourceTree = "<group>"; };
 		46825AB41FFA368200FD8ED9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		46825AC01FFA38C800FD8ED9 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
+		46825AC11FFA38C800FD8ED9 /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		46825AC21FFA38C800FD8ED9 /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		46825AC31FFA38C800FD8ED9 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		46825AC41FFA38C800FD8ED9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		46825ACF1FFF3EEF00FD8ED9 /* UserRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserRecord.h; sourceTree = "<group>"; };
+		46825AD01FFF3F0600FD8ED9 /* UserRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserRecord.m; sourceTree = "<group>"; };
+		46E58537200BE26E001A9626 /* MathProblemGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MathProblemGenerator.m; sourceTree = "<group>"; };
+		46E58539200BE284001A9626 /* MathProblemGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MathProblemGenerator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,16 +114,23 @@
 		46825A891FFA368200FD8ED9 /* LearningFun */ = {
 			isa = PBXGroup;
 			children = (
+				46825AC01FFA38C800FD8ED9 /* FirstViewController.h */,
+				46825AC11FFA38C800FD8ED9 /* FirstViewController.m */,
+				46825AC21FFA38C800FD8ED9 /* SecondViewController.h */,
+				46825AC31FFA38C800FD8ED9 /* SecondViewController.m */,
+				46825AC41FFA38C800FD8ED9 /* Settings.bundle */,
 				46825A8D1FFA368200FD8ED9 /* AppDelegate.h */,
 				46825A8E1FFA368200FD8ED9 /* AppDelegate.m */,
-				46825A901FFA368200FD8ED9 /* ViewController.h */,
-				46825A911FFA368200FD8ED9 /* ViewController.m */,
-				46825A931FFA368200FD8ED9 /* Main.storyboard */,
 				46825A991FFA368200FD8ED9 /* Assets.xcassets */,
+				46825A931FFA368200FD8ED9 /* Main.storyboard */,
 				46825A9B1FFA368200FD8ED9 /* LaunchScreen.storyboard */,
 				46825A9E1FFA368200FD8ED9 /* Info.plist */,
 				46825A961FFA368200FD8ED9 /* LearningFun.xcdatamodeld */,
 				46825A8A1FFA368200FD8ED9 /* Supporting Files */,
+				46825ACF1FFF3EEF00FD8ED9 /* UserRecord.h */,
+				46825AD01FFF3F0600FD8ED9 /* UserRecord.m */,
+				46E58539200BE284001A9626 /* MathProblemGenerator.h */,
+				46E58537200BE26E001A9626 /* MathProblemGenerator.m */,
 			);
 			path = LearningFun;
 			sourceTree = "<group>";
@@ -205,18 +223,21 @@
 		46825A7F1FFA368200FD8ED9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = chchench;
 				TargetAttributes = {
 					46825A861FFA368200FD8ED9 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = SC7488M9S2;
 					};
 					46825AA21FFA368200FD8ED9 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = SC7488M9S2;
 						TestTargetID = 46825A861FFA368200FD8ED9;
 					};
 					46825AAD1FFA368200FD8ED9 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = SC7488M9S2;
 						TestTargetID = 46825A861FFA368200FD8ED9;
 					};
 				};
@@ -246,6 +267,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46825AC71FFA38C800FD8ED9 /* Settings.bundle in Resources */,
 				46825A9D1FFA368200FD8ED9 /* LaunchScreen.storyboard in Resources */,
 				46825A9A1FFA368200FD8ED9 /* Assets.xcassets in Resources */,
 				46825A951FFA368200FD8ED9 /* Main.storyboard in Resources */,
@@ -273,10 +295,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46825A921FFA368200FD8ED9 /* ViewController.m in Sources */,
+				46E58538200BE26E001A9626 /* MathProblemGenerator.m in Sources */,
+				46825AC61FFA38C800FD8ED9 /* SecondViewController.m in Sources */,
 				46825A981FFA368200FD8ED9 /* LearningFun.xcdatamodeld in Sources */,
+				46825AC51FFA38C800FD8ED9 /* FirstViewController.m in Sources */,
 				46825A8F1FFA368200FD8ED9 /* AppDelegate.m in Sources */,
 				46825A8C1FFA368200FD8ED9 /* main.m in Sources */,
+				46825AD11FFF3F0600FD8ED9 /* UserRecord.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,18 +364,29 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Charles Cheng (LEUQT93L6A)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = SC7488M9S2;
+				"DEVELOPMENT_TEAM[sdk=*]" = SC7488M9S2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -367,7 +403,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -383,18 +419,28 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Charles Cheng (LEUQT93L6A)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = SC7488M9S2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -405,7 +451,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -502,6 +548,7 @@
 				46825AB91FFA368200FD8ED9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		46825ABA1FFA368200FD8ED9 /* Build configuration list for PBXNativeTarget "LearningFunTests" */ = {
 			isa = XCConfigurationList;
@@ -510,6 +557,7 @@
 				46825ABC1FFA368200FD8ED9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		46825ABD1FFA368200FD8ED9 /* Build configuration list for PBXNativeTarget "LearningFunUITests" */ = {
 			isa = XCConfigurationList;
@@ -518,6 +566,7 @@
 				46825ABF1FFA368200FD8ED9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
