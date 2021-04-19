@@ -58,14 +58,16 @@
         if (i >= 1000) break; // We only show up to 1000 past math problems
     }
     
-#if 0
+#if 1
     // table view data is being set here
     myData = [[NSMutableArray alloc]initWithObjects:
               @"Data 1 in array",@"Data 2 in array",@"Data 3 in array",
               @"Data 4 in array",@"Data 5 in array",@"Data 6 in array",
               @"Data 7 in array",@"Data 8 in array",@"Data 9 in array",
               @"Data 10 in array", @"Data 11 in array", @"Data 12 in array",
-              @"Data 13 in array", @"Data 14 in array", @"Data 15 in array", nil];
+              @"Data 13 in array", @"Data 14 in array", @"Data 15 in array",
+              @"Data 16 in array", @"Data 17 in array", @"Data 18 in array",
+              @"Data 19 in array", @"Data 20 in array", @"Data 21 in array", nil];
 #endif
     
     // Do any additional setup after loading the view, typically from a nib.
@@ -94,9 +96,11 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:
-                UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
     }
+    
+    
+    
     
     NSString *stringForCell;
     
@@ -106,11 +110,44 @@
     } else if (indexPath.section == 1) {
         stringForCell= [myData objectAtIndex:indexPath.row+ [myData count]/2];
     }
+    
+#if 0
     [cell.textLabel setText:stringForCell];
+#else
+    
+    
+    cell.textLabel.text = stringForCell;
+    cell.detailTextLabel.text = @"Hello";
+    cell.imageView.image = [UIImage imageNamed:@"creme_brelee.jpg"];
+#endif
+
 #endif
     
     return cell;
 }
+
+
+
+
+#if 0 // TBD TBD TBD
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+ 
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyIdentifier"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"MyIdentifier"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    NSDictionary *item = (NSDictionary *)[self.content objectAtIndex:indexPath.row];
+    cell.textLabel.text = [item objectForKey:@"mainTitleKey"];
+    cell.detailTextLabel.text = [item objectForKey:@"secondaryTitleKey"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:[item objectForKey:@"imageKey"] ofType:@"png"];
+    UIImage *theImage = [UIImage imageWithContentsOfFile:path];
+    cell.imageView.image = theImage;
+    return cell;
+}
+#endif // TBD TBD TBD
+
+
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

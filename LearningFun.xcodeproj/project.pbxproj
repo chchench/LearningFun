@@ -19,6 +19,7 @@
 		46825AC61FFA38C800FD8ED9 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46825AC31FFA38C800FD8ED9 /* SecondViewController.m */; };
 		46825AC71FFA38C800FD8ED9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 46825AC41FFA38C800FD8ED9 /* Settings.bundle */; };
 		46825AD11FFF3F0600FD8ED9 /* UserRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 46825AD01FFF3F0600FD8ED9 /* UserRecord.m */; };
+		46C7FC44262D2E6000A37F16 /* creme_brelee.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 46C7FC43262D2E6000A37F16 /* creme_brelee.jpg */; };
 		46E58538200BE26E001A9626 /* MathProblemGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E58537200BE26E001A9626 /* MathProblemGenerator.m */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		46825AC41FFA38C800FD8ED9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		46825ACF1FFF3EEF00FD8ED9 /* UserRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserRecord.h; sourceTree = "<group>"; };
 		46825AD01FFF3F0600FD8ED9 /* UserRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserRecord.m; sourceTree = "<group>"; };
+		46C7FC43262D2E6000A37F16 /* creme_brelee.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = creme_brelee.jpg; sourceTree = "<group>"; };
 		46E58537200BE26E001A9626 /* MathProblemGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MathProblemGenerator.m; sourceTree = "<group>"; };
 		46E58539200BE284001A9626 /* MathProblemGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MathProblemGenerator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,6 +116,7 @@
 		46825A891FFA368200FD8ED9 /* LearningFun */ = {
 			isa = PBXGroup;
 			children = (
+				46C7FC43262D2E6000A37F16 /* creme_brelee.jpg */,
 				46825AC01FFA38C800FD8ED9 /* FirstViewController.h */,
 				46825AC11FFA38C800FD8ED9 /* FirstViewController.m */,
 				46825AC21FFA38C800FD8ED9 /* SecondViewController.h */,
@@ -247,6 +250,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -268,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46825AC71FFA38C800FD8ED9 /* Settings.bundle in Resources */,
+				46C7FC44262D2E6000A37F16 /* creme_brelee.jpg in Resources */,
 				46825A9D1FFA368200FD8ED9 /* LaunchScreen.storyboard in Resources */,
 				46825A9A1FFA368200FD8ED9 /* Assets.xcassets in Resources */,
 				46825A951FFA368200FD8ED9 /* Main.storyboard in Resources */,
