@@ -10,38 +10,37 @@
 #define UserRecord_h
 
 #import <CoreData/CoreData.h>
+#import <sqlite3.h>
 
-@interface UserRecord : NSObject
 
-@property (nonatomic, strong) NSString *firstName;
-@property (nonatomic, strong) NSString *lastName;
-@property (nonatomic, strong) NSString *emailAddress;
-@property (nonatomic, strong) NSDate *birthday;
-@property (nonatomic, strong) NSDate *creationTimestamp;
-@property (nonatomic) BOOL gender;
+@interface ProblemRecord : NSObject
 
-@property (nonatomic) BOOL dbLookupDone;
-@property (nonatomic, strong) NSManagedObject *dbRecord;
-
-- (id)init;
-- (id)init:(NSString *)firstName andLastName:(NSString *)lastName andEmail:(NSString *)emailAddress;
-
-- (NSManagedObject *)retrieveUserRecord:(NSString *)firstName andLastName:(NSString *)lastName andEmail:(NSString *)emailAddress;
-- (BOOL)userExistsInDB:(NSString *)firstName andLastName:(NSString *)lastName andEmail:(NSString *)emailAddress;
-
-- (BOOL)updatePersistentRecord:(BOOL)createIfNotFound;
-
-- (BOOL)addMathProblemToRecord:(NSString *)problemDescription andCorrectAnswer:(NSString *) correctAnswer
-                 andUserAnswer:(NSString *)userAnswer andAnswerCorrect:(BOOL) answerCorrect
-                  andTimestamp:(NSDate *) timestamp withDifficultyLevel:(NSInteger)difficultyLevel
-                  withSeriesID:(NSString *)seriesID;
-
-- (NSArray *)retrieveAllPastMathProblems;
-
-+ (void)setPersistentStorageInfo:(NSManagedObjectContext *) objContext
-                     andObjModel:(NSManagedObjectModel *) objectModel
-                   andStoreCoord:(NSPersistentStoreCoordinator *) storeCoordinator;
+@property (nonatomic, assign) int uniqueId;
+@property (nonatomic, copy) NSString *problemDescription;
+@property (nonatomic, copy) NSString *userAnswer;
+@property (nonatomic) BOOL answeredCorrectly;
+@property (nonatomic, copy) NSDate *timestamp;
 
 @end
+
+
+
+@interface UserRecord : NSObject {
+    sqlite3 *_database;
+}
+
+
+@property (nonatomic) BOOL dbLookupDone;
+
+
+- (id)init;
+- (BOOL)prepareNOpenDB;
+- (BOOL)addMathProblemToRecord:(NSString *)problemDescription userAnswer:(NSString *)userAnswer answeredCorrectly:(BOOL)answeredCorrectly;
+- (void)deleteOutdatedMathProblems:(NSUInteger)numDays2Keep;
+- (NSArray*)retrieveAllPastMathProblems:(NSUInteger)numDaysInPast;
+
+
+@end
+
 
 #endif /* UserRecord_h */

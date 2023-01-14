@@ -1,33 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17C88" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
-    <entity name="Account" syncable="YES">
-        <attribute name="emailAddress" attributeType="String" minValueString="8" maxValueString="128" regularExpressionString="@" syncable="YES"/>
-        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="account" inverseEntity="User" syncable="YES"/>
-    </entity>
-    <entity name="MathProblem" syncable="YES">
-        <attribute name="answerCorrect" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="correctAnswer" attributeType="String" syncable="YES"/>
-        <attribute name="difficultyLevel" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="problemDescription" attributeType="String" syncable="YES"/>
-        <attribute name="seriesID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="userAnswer" attributeType="String" syncable="YES"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="mathProblems" inverseEntity="User" syncable="YES"/>
-    </entity>
-    <entity name="User" syncable="YES">
-        <attribute name="birthday" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="emailAddress" optional="YES" attributeType="String" minValueString="8" maxValueString="128" syncable="YES"/>
-        <attribute name="firstName" attributeType="String" syncable="YES"/>
-        <attribute name="gender" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="lastName" attributeType="String" syncable="YES"/>
-        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="users" inverseEntity="Account" syncable="YES"/>
-        <relationship name="mathProblems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MathProblem" inverseName="user" inverseEntity="MathProblem" syncable="YES"/>
-    </entity>
-    <elements>
-        <element name="Account" positionX="-63" positionY="-18" width="128" height="90"/>
-        <element name="MathProblem" positionX="277" positionY="213" width="128" height="163"/>
-        <element name="User" positionX="124" positionY="-12" width="128" height="165"/>
-    </elements>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19H1419" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <elements/>
 </model>
