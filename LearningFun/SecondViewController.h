@@ -10,10 +10,9 @@
 
 @interface SecondViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
-{
-    IBOutlet UITableView *myTableView;
-    NSMutableArray *myData;
-}
-    
+@property (nonatomic, weak) IBOutlet UITableView *myTableView;
+
+- (void)refreshPastHistory;
+
 @end
 

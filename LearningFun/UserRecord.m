@@ -11,228 +11,145 @@
 #import "UserRecord.h"
 
 
-@implementation UserRecord
 
-NSManagedObjectContext *managedObjectContext;
-NSManagedObjectModel *managedObjectModel;
-NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@implementation ProblemRecord
+
+@synthesize uniqueId;
+@synthesize problemDescription;
+@synthesize userAnswer;
+@synthesize answeredCorrectly;
+@synthesize timestamp;
+
+@end
+
+
+
+@implementation UserRecord
 
 
 - (id)init
 {
-    self.dbRecord = nil;
-    self.dbLookupDone = NO;
+    _database = nil;
+    self.dbLookupDone = FALSE;
+    
+    [self prepareNOpenDB];
     
     return self;
 }
 
 
-- (id)init:(NSString *)firstName andLastName:(NSString *)lastName andEmail:(NSString *)emailAddress
+- (BOOL)prepareNOpenDB
 {
-    self.firstName = firstName;
-    self.lastName = lastName;
-    self.emailAddress = emailAddress;
-    
-    self.dbRecord = [self retrieveUserRecord:firstName andLastName:lastName andEmail:emailAddress];
-    self.dbLookupDone = YES;
-    
-    return self;
-}
+    // Get the documents directory
+    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docsDir = [dirPaths objectAtIndex:0];
 
+    // Build the path to the database file
+    NSString *databasePath = [[NSString alloc] initWithString: [docsDir stringByAppendingPathComponent: @"LearningFun.db"]];
+    const char *dbpath = [databasePath UTF8String];
 
-- (NSManagedObject *)retrieveUserRecord:(NSString *)firstName andLastName:(NSString *)lastName andEmail:(NSString *)emailAddress
-{
-    if (!firstName || !managedObjectContext || !managedObjectModel || !persistentStoreCoordinator) {
-        NSLog(@"Incorrect invocation of retrieveUserRecord");
-        return nil;
-    }
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    NSPredicate *predicate = nil;
-    
-    if (lastName && emailAddress)
-        predicate = [NSPredicate predicateWithFormat:@"(firstName == %@) AND (lastName == %@) AND (emailAddress == %@)",
-                     firstName, lastName, emailAddress];
-    else if (lastName)
-        predicate = [NSPredicate predicateWithFormat:@"(firstName == %@) AND (lastName == %@)",
-                     firstName, lastName];
-    
-    [fetchRequest setPredicate:predicate];
-    
-    NSError *error = nil;
-    NSArray *result = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    
-    if (error) {
-        NSLog(@"Unable to execute fetch request.");
-        NSLog(@"%@, %@", error, error.localizedDescription);
-        
-        self.dbLookupDone = NO;
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    if ([filemgr fileExistsAtPath: databasePath ] == NO) {
+        if (sqlite3_open(dbpath, &_database) == SQLITE_OK) {
+            char *errMsg;
+            const char *sql_stmt = "CREATE TABLE problem_records(uniqueID integer primary key autoincrement, problemDescription text, userAnswer text, answeredCorrectly integer, timestamp integer)";
+            if (sqlite3_exec(_database, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK) {
+                NSLog(@"Failed to create table\"flagged_files\"");
+                return FALSE;
+            }
+
+            // We're going to just keep the database open
+            // sqlite3_close(_database);
+        }
+        else {
+            NSLog(@"Failed to open/create database \"%@\"", databasePath);
+                            return FALSE;
+        }
     }
     else {
-        NSLog(@"%@", result);
+        if (sqlite3_open(dbpath, &_database) != SQLITE_OK) {
+            NSLog(@"Failed to open database \"%@\"!", databasePath);
+            return FALSE;
+        }
     }
     
-    if (result == 0 || result.count == 0) {
-        self.dbRecord = nil;
-        self.dbLookupDone = YES;
-        
-        return nil;
-    }
-    
-    NSManagedObject *userRec = (NSManagedObject *)[result objectAtIndex:0];
-    
-    self.firstName = [userRec valueForKey:@"firstName"];
-    self.lastName = [userRec valueForKey:@"lastName"];
-    self.emailAddress = [userRec valueForKey:@"emailAddress"];
-    self.gender = [userRec valueForKey:@"gender"];
-    self.birthday = [userRec valueForKey:@"birthday"];
-    self.creationTimestamp = [userRec valueForKey:@"creationDate"];
-    
-    self.dbRecord = userRec;
-    self.dbLookupDone = YES;
-    
-    return userRec;
+    return TRUE;
 }
 
 
-- (BOOL)userExistsInDB:(NSString *)firstName andLastName:(NSString *)lastName andEmail:(NSString *)emailAddress
+- (BOOL)addMathProblemToRecord:(NSString *)problemDescription userAnswer:(NSString *)userAnswer answeredCorrectly:(BOOL)answeredCorrectly
 {
-    if (self.dbLookupDone)
-        return (self.dbRecord != nil);
+    int unixtime = [NSDate date].timeIntervalSince1970;
     
-    return ([self retrieveUserRecord:firstName andLastName:lastName andEmail:emailAddress] != nil);
+    NSString *query =
+    [[NSString alloc] initWithFormat:@"INSERT INTO problem_records (problemDescription, userAnswer, answeredCorrectly, timestamp) VALUES(\'%@\', \'%@\', %lu, %li)", problemDescription, userAnswer, answeredCorrectly, unixtime];
+    
+    char *errorMsg = NULL;
+    if (sqlite3_exec(_database, [query UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
+        NSLog(@"Error while inserting record with SQL query\"%@\"\n", query);
+        return FALSE;
+    }
+    
+    return TRUE;
 }
 
 
-- (BOOL)updatePersistentRecord:(BOOL)createIfNotFound
+- (void)deleteOutdatedMathProblems:(NSUInteger)numDays2Keep
 {
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"User" inManagedObjectContext:managedObjectContext];
+    int unix_time = [NSDate date].timeIntervalSince1970;
+    int cutoff_unix_time = unix_time - (numDays2Keep * 24 * 60 * 60);
 
-    NSManagedObject *userRec = nil;
-    if (self.dbRecord)
-        userRec = self.dbRecord;
-    else if (createIfNotFound)
-        userRec = [[NSManagedObject alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:managedObjectContext];
-    else
-        return NO;
+    NSString *query = [[NSString alloc] initWithFormat:@"DELETE FROM problem_records WHERE timestamp < %i", cutoff_unix_time];
     
-    [userRec setValue:self.firstName forKey:@"firstName"];
-    
-    if (self.lastName) [userRec setValue:self.lastName forKey:@"lastName"];
-    
-    if (self.emailAddress) [userRec setValue:self.emailAddress forKey:@"emailAddress"];
-    
-    [userRec setValue:(self.gender ? @YES : @NO) forKey:@"gender"];
-    
-    if (self.birthday) [userRec setValue:self.birthday forKey:@"birthday"];
-    
-    if (!self.creationTimestamp) {
-        NSDate *currentDateTime = [NSDate date];
-        self.creationTimestamp = currentDateTime;
-        [userRec setValue:self.creationTimestamp forKey:@"creationDate"];
+    sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(_database, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        if (sqlite3_step(statement) != SQLITE_DONE) {
+            NSLog(@"Error while deleting records older than %lu days\n", numDays2Keep);
+        }
     }
-    
-    NSError *error = nil;
-    if (![userRec.managedObjectContext save:&error]) {
-        NSLog(@"Unable to save managed object context.");
-        NSLog(@"%@ %@", error, error.localizedDescription);
-        
-        return NO;
-    }
-
-    return YES;
 }
 
 
-- (BOOL)addMathProblemToRecord:(NSString *)problemDescription andCorrectAnswer:(NSString *) correctAnswer
-                 andUserAnswer:(NSString *)userAnswer andAnswerCorrect:(BOOL) answerCorrect
-                  andTimestamp:(NSDate *) timestamp withDifficultyLevel:(NSInteger)difficultyLevel
-                  withSeriesID:(NSString *)seriesID
+- (NSArray *)retrieveAllPastMathProblems:(NSUInteger)numDaysInPast
 {
-    NSEntityDescription *entityMathProblem = [NSEntityDescription entityForName:@"MathProblem" inManagedObjectContext:managedObjectContext];
-    NSManagedObject *newProblem = [[NSManagedObject alloc] initWithEntity:entityMathProblem insertIntoManagedObjectContext:managedObjectContext];
-
-    [newProblem setValue:problemDescription forKey:@"problemDescription"];
-    [newProblem setValue:correctAnswer forKey:@"correctAnswer"];
-    [newProblem setValue:userAnswer forKey:@"userAnswer"];
-    [newProblem setValue:(answerCorrect ? @1 : @0) forKey:@"answerCorrect"];
-    [newProblem setValue:timestamp forKey:@"timestamp"];
-    NSNumber *level = @(difficultyLevel);
-    [newProblem setPrimitiveValue:level forKey:@"difficultyLevel"];
-    [newProblem setValue:seriesID forKey:@"seriesID"];
- 
-    NSMutableSet *problems = [self.dbRecord mutableSetValueForKey:@"mathProblems"];
-    if (problems.count > 0)
-        [problems addObject:newProblem];
-    else
-        [self.dbRecord setValue:[NSSet setWithObject:newProblem] forKey:@"mathProblems"];
+    NSMutableArray *retval = [[NSMutableArray alloc] init];
     
-    NSError *error = nil;
-    if (![self.dbRecord.managedObjectContext save:&error]) {
-        NSLog(@"Unable to save managed object context.");
-        NSLog(@"%@, %@", error, error.localizedDescription);
+    int unix_time = [NSDate date].timeIntervalSince1970;
+    int cutoff_unix_time = unix_time - (numDaysInPast * 24 * 60 * 60);
+    
+    NSString *query = [[NSString alloc] initWithFormat:@"SELECT uniqueId, problemDescription, userAnswer, answeredCorrectly, timestamp FROM problem_records WHERE timestamp >= %i ORDER BY uniqueId DESC", cutoff_unix_time];
+    
+    sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(_database, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
         
-        return NO;
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+            int uniqueId = sqlite3_column_int(statement, 0);
+            
+            char *cProblemDescription = (char *) sqlite3_column_text(statement, 1);
+            char *cUserAnswer = (char *) sqlite3_column_text(statement, 2);
+            int iAnsweredCorrectly = (int) sqlite3_column_int(statement, 3);
+            int iTimestamp = (int) sqlite3_column_int(statement, 4);
+            
+            NSString *problemDescription = [[NSString alloc] initWithUTF8String:cProblemDescription];
+            NSString *userAnswer = [[NSString alloc] initWithUTF8String:cUserAnswer];
+            
+            NSDate *timestamp = [[NSDate alloc] initWithTimeIntervalSince1970:iTimestamp];
+            
+            ProblemRecord *rec = [[ProblemRecord alloc] init];
+            rec.uniqueId = uniqueId;
+            rec.problemDescription = problemDescription;
+            rec.userAnswer = userAnswer;
+            rec.answeredCorrectly = (BOOL)iAnsweredCorrectly;
+            rec.timestamp = timestamp;
+                                  
+            NSLog(@"problemDescription = \"%@\"; userAnswer = \"%@\"; answeredCorrectly = %i, timestamp = \"%@\"", problemDescription, userAnswer, iAnsweredCorrectly, timestamp);
+            
+            [retval addObject:rec];
+        }
+        sqlite3_finalize(statement);
     }
-    
-    return YES;
-}
-
-
-- (NSArray *)retrieveAllPastMathProblems
-{
-    if (!self.dbLookupDone || !self.dbRecord) return nil;
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"MathProblem" inManagedObjectContext:managedObjectContext];
-    [fetchRequest setEntity:entity];
-
-#if 0
-    // TBD
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user == 2"]; //////// TBD ////////
-    
-    [fetchRequest setPredicate:predicate];
-#endif
-                              
-    NSError *error = nil;
-    NSArray *result = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    
-    if (error) {
-        NSLog(@"Unable to execute fetch request.");
-        NSLog(@"%@, %@", error, error.localizedDescription);
         
-        self.dbLookupDone = NO;
-    }
-    else {
-        NSLog(@"%@", result);
-    }
-    
-    if (result == 0 || result.count == 0) {
-        self.dbRecord = nil;
-        self.dbLookupDone = YES;
-        
-        return nil;
-    }
-    
-    NSLog(@"Number of math problems retrieved from DB = %i", result.count);
-    NSManagedObject *problem = (NSManagedObject *)[result objectAtIndex:0];
-                              
-    return result;
-}
-
-
-+ (void)setPersistentStorageInfo:(NSManagedObjectContext *) objContext
-                     andObjModel:(NSManagedObjectModel *) objectModel
-                   andStoreCoord:(NSPersistentStoreCoordinator *) storeCoordinator
-{
-    managedObjectContext = objContext;
-    managedObjectModel = objectModel;
-    persistentStoreCoordinator = storeCoordinator;
+    return retval;
 }
 
 

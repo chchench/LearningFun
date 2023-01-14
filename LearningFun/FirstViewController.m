@@ -121,6 +121,13 @@
 }
 
 
+/*
+ 
+ - (BOOL)addMathProblemToRecord:(NSString *)problemDescription correctAnswer:(NSString *) correctAnswer userAnswer:(NSString *)userAnswer answeredCorrectly:(BOOL)answeredCorrectly timestamp:(NSDate *)timestamp
+ 
+ */
+
+
 - (IBAction)checkButtonPressed:(UIButton *)sender
 {
     NSLog(@"Check button pressed");
@@ -142,6 +149,8 @@
     AppDelegate *app = ((AppDelegate*)[[UIApplication sharedApplication]delegate]);
     
     int userAnswer = [self retrieveUserAnswer];
+    NSString *userAnswerStr = [[NSString alloc] initWithFormat:@"%i", userAnswer];
+
     if (userAnswer == self.answerTotal) {
         NSLog(@"User provided answer (%i) is CORRECT", userAnswer);
         
@@ -156,22 +165,19 @@
         });
         
         // Write correctly answered problem to the DB
-        NSDate *current = [NSDate date];
-        NSString *userAnswerStr = [NSString stringWithFormat:@"%i", userAnswer];
-        [app.defaultUser addMathProblemToRecord:self.mathProblemStr andCorrectAnswer:userAnswerStr andUserAnswer:userAnswerStr andAnswerCorrect:YES andTimestamp:current withDifficultyLevel:1 /* TBD temp diffulty level */ withSeriesID:@""];
-        
+        [app.problemRecords addMathProblemToRecord:self.mathProblemStr userAnswer:userAnswerStr answeredCorrectly:1];
+         
         AudioServicesPlayAlertSound(/* Calypso */ 1022);
         
         [NSThread sleepForTimeInterval:1 /* 1 seconds */];
     }
     else {
         NSLog(@"User provided answer (%i) is INCORRECT. Correct answer is %i", userAnswer, self.answerTotal);
-        
+                
+        self.numTimesWithIncorrectAnswer++;
         AudioServicesPlayAlertSound(/* Choo Choo */ 1023);
         
-        self.numTimesWithIncorrectAnswer++;
-        
-        if (self.numTimesWithIncorrectAnswer >= 5 /* TBD - give user 5 tries */) {
+        if (self.numTimesWithIncorrectAnswer >= 3 /* TBD - give user 3 tries */) {
             self.waitingToContinueMode = YES;
             self.clearBtn.hidden = YES;
             
@@ -183,12 +189,8 @@
             });
             
             // Write incorrectly answered problem to the DB
-            NSDate *current = [NSDate date];
-            NSString *userAnswerStr = [NSString stringWithFormat:@"%i", userAnswer];
-            NSString *correctAnswerStr = [NSString stringWithFormat:@"%i", self.answerTotal];
-            [app.defaultUser addMathProblemToRecord:self.mathProblemStr andCorrectAnswer:correctAnswerStr andUserAnswer:userAnswerStr andAnswerCorrect:NO andTimestamp:current withDifficultyLevel:1 /* TBD temp diffulty level */ withSeriesID:@""];
+            [app.problemRecords addMathProblemToRecord:self.mathProblemStr userAnswer:userAnswerStr answeredCorrectly:0];
 
-            
             [NSThread sleepForTimeInterval:1 /* 1 seconds */];
         }
         else{
@@ -281,19 +283,19 @@
     switch (op) {
         case PROBLEM_TYPE_ADDITION:
             self.op.image = [UIImage imageNamed:@"plus_s"];
-            self.mathProblemStr = [NSMutableString stringWithFormat:@"%i + %i", self.operand1Total, self.operand2Total];
+            self.mathProblemStr = [NSMutableString stringWithFormat:@"%i + %i = %i", self.operand1Total, self.operand2Total, self.answerTotal];
             break;
         case PROBLEM_TYPE_SUBTRACTION:
             self.op.image = [UIImage imageNamed:@"minus_s"];
-            self.mathProblemStr = [NSMutableString stringWithFormat:@"%i - %i", self.operand1Total, self.operand2Total];
+            self.mathProblemStr = [NSMutableString stringWithFormat:@"%i - %i = %i", self.operand1Total, self.operand2Total, self.answerTotal];
             break;
         case PROBLEM_TYPE_MULTIPLICATION:
             self.op.image = [UIImage imageNamed:@"times_s"];
-            self.mathProblemStr = [NSMutableString stringWithFormat:@"%i * %i", self.operand1Total, self.operand2Total];
+            self.mathProblemStr = [NSMutableString stringWithFormat:@"%i * %i = %i", self.operand1Total, self.operand2Total, self.answerTotal];
             break;
         case PROBLEM_TYPE_DIVISION:
             self.op.image = [UIImage imageNamed:@"divided_by_s"];
-            self.mathProblemStr = [NSMutableString stringWithFormat:@"%i / %i", self.operand1Total, self.operand2Total];
+            self.mathProblemStr = [NSMutableString stringWithFormat:@"%i / %i = %i", self.operand1Total, self.operand2Total, self.answerTotal];
             break;
     }
     
