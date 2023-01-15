@@ -68,7 +68,6 @@
     }
 }
 
-
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if (self.dragDigit) {
@@ -79,14 +78,9 @@
     }
 }
 
-
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
-    
-#if 0
-    NSLog(@"TOUCH ENDED: touch X=%f touch Y=%f", touchPoint.x, touchPoint.y);
-#endif
     
     for (int i = 0; i < [self.answerArray count]; i++) {
         UIImageView *iView = self.answerArray[i];
@@ -95,10 +89,6 @@
             touchPoint.x < iView.frame.origin.x + iView.frame.size.width &&
             touchPoint.y > iView.frame.origin.y &&
             touchPoint.y < iView.frame.origin.y + iView.frame.size.height) {
-      
-#if 0
-            NSLog(@"User has dropped off \"%i\" at the answer slot %i", self.digitChosen, i);
-#endif
          
             UIImageView *chosenDigit = self.digitArray[self.digitChosen];
             iView.image = chosenDigit.image;
@@ -113,20 +103,6 @@
     
     if (!self.dragDigit.hidden) self.dragDigit.hidden = YES;
 }
-
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    
-}
-
-
-/*
- 
- - (BOOL)addMathProblemToRecord:(NSString *)problemDescription correctAnswer:(NSString *) correctAnswer userAnswer:(NSString *)userAnswer answeredCorrectly:(BOOL)answeredCorrectly timestamp:(NSDate *)timestamp
- 
- */
-
 
 - (IBAction)checkButtonPressed:(UIButton *)sender
 {
@@ -199,14 +175,12 @@
     }
 }
 
-
 - (IBAction)clearButtonPressed:(UIButton *)sender
 {
     NSLog(@"Clear button pressed");
     
     [self resetUserAnswer];
 }
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -247,19 +221,12 @@
     [self setupNewMathProblem];
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-
-- (void)writeMathProblemResult2DB
-{
-    
-}
-
-
+// TBD: Make this adjustable via UI in the future
 #define TEMP_MAX_MATH_PROBLEM_VALUE 100
 
 - (void)setupNewMathProblem {
@@ -307,7 +274,6 @@
     self.waitingToContinueMode = NO;
 }
 
-
 - (void)resetUserAnswer
 {
     for (int i = 0; i < MAX_NUM_DIGITS_ANS; i++) {
@@ -316,7 +282,6 @@
         iView.image = nil;
     }
 }
-
 
 - (BOOL)answerCompletelyFilled
 {
@@ -327,7 +292,6 @@
     
     return YES;
 }
-
 
 - (int)retrieveUserAnswer
 {
@@ -340,7 +304,6 @@
     
     return total;
 }
-
 
 - (void)prepAnswerArea:(int)answerToSet
 {
@@ -359,14 +322,10 @@
     self.answer_0.hidden = NO;
 }
 
-
 - (void)setOperandImages:(int)numberToSet withArray:(NSMutableArray *)opArray withCount:(int)opArraySize
 {
     for (int i = 0; i < opArraySize; i++) {
         int digit = numberToSet % 10;
-#if 0
-        NSLog(@"The digit retrieved from the operand is \"%i\"", digit);
-#endif
 
         UIImageView *v = [opArray objectAtIndex:i];
         UIImageView *targetImg = self.digitArray[digit];
