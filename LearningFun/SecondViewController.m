@@ -33,7 +33,6 @@
     [self refreshPastHistory];
 }
 
-
 - (void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"SecondViewController - viewWillAppear");
@@ -41,15 +40,10 @@
     [self.myTableView reloadData];
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-///////////////////////////////////////////////////////////////////////////
-
 
 - (void)refreshPastHistory
 {
@@ -71,9 +65,6 @@
 }
 
 
-///////////////////////////////////////////////////////////////////////////
-
-
 #pragma mark - Table View Data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -92,7 +83,6 @@
 
     return self.pastRecs.count;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -144,31 +134,6 @@
     return cell;
 }
 
-
-
-
-#if 0 // TBD TBD TBD
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
- 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyIdentifier"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"MyIdentifier"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    NSDictionary *item = (NSDictionary *)[self.content objectAtIndex:indexPath.row];
-    cell.textLabel.text = [item objectForKey:@"mainTitleKey"];
-    cell.detailTextLabel.text = [item objectForKey:@"secondaryTitleKey"];
-    NSString *path = [[NSBundle mainBundle] pathForResource:[item objectForKey:@"imageKey"] ofType:@"png"];
-    UIImage *theImage = [UIImage imageWithContentsOfFile:path];
-    cell.imageView.image = theImage;
-    return cell;
-}
-#endif // TBD TBD TBD
-
-
-
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     NSLog(@"INVOKED:  - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView");
@@ -180,7 +145,6 @@
         totalSections++;
     return totalSections;
 }
-
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -204,14 +168,12 @@
     return headerTitle;
 }
 
-
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
     NSLog(@"INVOKED:  - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section");
     
     return nil;
 }
-
 
 #pragma mark - TableView delegate
 

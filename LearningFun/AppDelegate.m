@@ -13,6 +13,7 @@
 
 @end
 
+
 @implementation AppDelegate
 
 
@@ -81,6 +82,5 @@
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultsToRegister];
 }
-
 
 @end
